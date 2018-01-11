@@ -34,7 +34,7 @@ namespace SixLabors.ImageSharp.Tests.Memory
         }
 
         [Theory]
-        [InlineData(false)]
+//        [InlineData(false)]
         [InlineData(true)]
         public void CalculateMaxArrayLength(bool isRawData)
         {
