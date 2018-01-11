@@ -16,7 +16,7 @@ namespace SixLabors.ImageSharp.Memory
         /// <summary>
         /// The <see cref="ArrayPool{T}"/> which is not kept clean.
         /// </summary>
-        private static readonly ArrayPool<T> ArrayPool = ArrayPool<T>.Create(CalculateMaxArrayLength(), 4);
+        // private static readonly ArrayPool<T> ArrayPool = ArrayPool<T>.Create(CalculateMaxArrayLength(), 4);
 
         /// <summary>
         /// Rents the pixel array from the pool.
