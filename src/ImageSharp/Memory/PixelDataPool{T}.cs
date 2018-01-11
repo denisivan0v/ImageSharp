@@ -16,7 +16,7 @@ namespace SixLabors.ImageSharp.Memory
         /// <summary>
         /// The <see cref="ArrayPool{T}"/> which is not kept clean.
         /// </summary>
-        private static readonly ArrayPool<T> ArrayPool = ArrayPool<T>.Shared;
+        private static readonly ArrayPool<T> ArrayPool = ArrayPool<T>.Create(CalculateMaxArrayLength(), 4);
 
         /// <summary>
         /// Rents the pixel array from the pool.
@@ -44,12 +44,12 @@ namespace SixLabors.ImageSharp.Memory
         internal static int CalculateMaxArrayLength()
         {
             // ReSharper disable once SuspiciousTypeConversion.Global
-            if (default(T) is IPixel)
-            {
-                const int MaximumExpectedImageSize = 16384 * 16384;
-                return MaximumExpectedImageSize;
-            }
-            else
+//            if (default(T) is IPixel)
+//            {
+//                const int MaximumExpectedImageSize = 16384 * 16384;
+//                return MaximumExpectedImageSize;
+//            }
+//            else
             {
                 const int MaxArrayLength = 1024 * 1024; // Match default pool.
                 return MaxArrayLength;
