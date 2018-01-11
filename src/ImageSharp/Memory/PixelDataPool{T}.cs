@@ -25,7 +25,8 @@ namespace SixLabors.ImageSharp.Memory
         /// <returns>The <see cref="T:TPixel[]"/></returns>
         public static T[] Rent(int minimumLength)
         {
-            return ArrayPool.Rent(minimumLength);
+            // return ArrayPool.Rent(minimumLength);
+            return new T[minimumLength];
         }
 
         /// <summary>
@@ -34,7 +35,7 @@ namespace SixLabors.ImageSharp.Memory
         /// <param name="array">The array to return to the buffer pool.</param>
         public static void Return(T[] array)
         {
-            ArrayPool.Return(array);
+            // ArrayPool.Return(array);
         }
 
         /// <summary>
@@ -44,12 +45,12 @@ namespace SixLabors.ImageSharp.Memory
         internal static int CalculateMaxArrayLength()
         {
             // ReSharper disable once SuspiciousTypeConversion.Global
-//            if (default(T) is IPixel)
-//            {
-//                const int MaximumExpectedImageSize = 16384 * 16384;
-//                return MaximumExpectedImageSize;
-//            }
-//            else
+            if (default(T) is IPixel)
+            {
+                const int MaximumExpectedImageSize = 16384 * 16384;
+                return MaximumExpectedImageSize;
+            }
+            else
             {
                 const int MaxArrayLength = 1024 * 1024; // Match default pool.
                 return MaxArrayLength;
