@@ -32,13 +32,13 @@ namespace SixLabors.ImageSharp.Memory
         internal override Buffer<T> Allocate<T>(int size, bool clear = false)
         {
             int itemSize = Unsafe.SizeOf<T>();
-            if (this.minSizeBytes > 0 && itemSize < this.minSizeBytes * itemSize)
+            if (this.minSizeBytes > 0 && this.minSizeBytes < size * itemSize)
             {
-                return new Buffer<T>(new T[itemSize], itemSize);
+                return new Buffer<T>(new T[size], size);
             }
 
-            byte[] byteBuffer = this.pool.Rent(itemSize * itemSize);
-            var buffer = new Buffer<T>(Unsafe.As<T[]>(byteBuffer), itemSize, this);
+            byte[] byteBuffer = this.pool.Rent(size);
+            var buffer = new Buffer<T>(Unsafe.As<T[]>(byteBuffer), size, this);
             if (clear)
             {
                 buffer.Clear();
