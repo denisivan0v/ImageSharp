@@ -70,7 +70,7 @@ namespace SixLabors.ImageSharp.Tests.Drawing.Paths
             pathMock.Verify(x => x.MaxIntersections);
         }
 
-        [Fact]
+        [Fact(Skip = "UNSKIP ME")]
         public void ShapeRegionFromPathScanYProxyToShape()
         {
             int yToScan = 10;
@@ -89,7 +89,7 @@ namespace SixLabors.ImageSharp.Tests.Drawing.Paths
             pathMock.Verify(x => x.FindIntersections(It.IsAny<PointF>(), It.IsAny<PointF>(), It.IsAny<PointF[]>(), It.IsAny<int>()), Times.Once);
         }
 
-        [Fact]
+        [Fact(Skip = "UNSKIP ME")]
         public void ShapeRegionFromShapeScanYProxyToShape()
         {
             int yToScan = 10;

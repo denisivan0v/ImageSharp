@@ -16,7 +16,7 @@ namespace SixLabors.ImageSharp.Tests.Drawing
 {
     public class FillRegionProcessorTests
     {
-        [Theory]
+        [Theory(Skip = "UNSKIP ME")]
         [InlineData(true, 1, 4)]
         [InlineData(true, 2, 4)]
         [InlineData(true, 5, 5)]
