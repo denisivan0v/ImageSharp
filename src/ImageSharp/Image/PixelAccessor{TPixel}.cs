@@ -151,7 +151,7 @@ namespace SixLabors.ImageSharp
             // take this object off the finalization queue
             // and prevent finalization code for this object
             // from executing a second time.
-            GC.SuppressFinalize(this);
+            // GC.SuppressFinalize(this);
         }
 
         /// <summary>
