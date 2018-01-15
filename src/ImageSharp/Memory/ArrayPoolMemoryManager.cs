@@ -27,7 +27,7 @@ namespace SixLabors.ImageSharp.Memory
         }
 
         /// <summary>
-        /// InitializBitmapImageValidatores a new instance of the <see cref="ArrayPoolMemoryManager"/> class.
+        /// Initializes a new instance of the <see cref="ArrayPoolMemoryManager"/> class.
         /// </summary>
         /// <param name="maxPoolSizeInBytes">The maximum size of pooled arrays. Arrays over the thershold are gonna be always allocated.</param>
         public ArrayPoolMemoryManager(int maxPoolSizeInBytes)
