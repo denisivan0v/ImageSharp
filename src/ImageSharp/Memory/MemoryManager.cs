@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +12,15 @@ namespace SixLabors.ImageSharp.Memory
     public abstract class MemoryManager
     {
         /// <summary>
-        /// Gets or sets the <see cref="MemoryManager"/> that is currently in use.
+        /// Allocates a <see cref="Buffer{T}"/> of size <paramref name="size"/>.
+        /// Note: Depending on the implementation, the buffer may not cleared before
+        /// returning, so it may contain data from an earlier use.
         /// </summary>
-        public static MemoryManager Current { get; set; } = new NullMemoryManager();
+        /// <typeparam name="T">Type of the data stored in the buffer</typeparam>
+        /// <param name="size">Size of the buffer to allocate</param>
+        /// <returns>A buffer of values of type <typeparamref name="T"/>.</returns>
+        internal abstract Buffer<T> Allocate<T>(int size)
+            where T : struct;
 
         /// <summary>
         /// Allocates a <see cref="Buffer{T}"/> of size <paramref name="size"/>, optionally
@@ -24,7 +30,7 @@ namespace SixLabors.ImageSharp.Memory
         /// <param name="size">Size of the buffer to allocate</param>
         /// <param name="clear">True to clear the backing memory of the buffer</param>
         /// <returns>A buffer of values of type <typeparamref name="T"/>.</returns>
-        internal abstract Buffer<T> Allocate<T>(int size, bool clear = false)
+        internal abstract Buffer<T> Allocate<T>(int size, bool clear)
             where T : struct;
 
         /// <summary>
@@ -39,7 +45,7 @@ namespace SixLabors.ImageSharp.Memory
         internal Buffer2D<T> Allocate2D<T>(int width, int height, bool clear = false)
             where T : struct
         {
-            var buffer = this.Allocate<T>(width * height, clear);
+            Buffer<T> buffer = this.Allocate<T>(width * height, clear);
 
             return new Buffer2D<T>(buffer, width, height);
         }

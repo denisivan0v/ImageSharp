@@ -1,4 +1,5 @@
-﻿using System.Buffers;
+﻿﻿using System;
+using System.Buffers;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -9,36 +10,47 @@ namespace SixLabors.ImageSharp.Memory
     /// </summary>
     public class ArrayPoolMemoryManager : MemoryManager
     {
-        private readonly int minSizeBytes;
+        /// <summary>
+        /// Defines the default maximum size of pooled arrays.
+        /// Currently set to a value equivalent to 16 MegaPixels of an <see cref="Rgba32"/> image.
+        /// </summary>
+        public const int DefaultMaxSizeInBytes = 4096 * 4096 * 4;
+
         private readonly ArrayPool<byte> pool;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayPoolMemoryManager"/> class.
-        /// By passing an integer greater than 0 as <paramref name="minSizeBytes"/>, a
-        /// minimum threshold for pooled allocations is set. Any allocation requests that
-        /// would require less size than the threshold will not be managed within the array pool.
         /// </summary>
-        /// <param name="minSizeBytes">
-        /// Minimum size, in bytes, before an array pool is used to satisfy the request.
-        /// </param>
-        public ArrayPoolMemoryManager(int minSizeBytes = 0)
+        public ArrayPoolMemoryManager()
+            : this(DefaultMaxSizeInBytes)
         {
-            this.minSizeBytes = minSizeBytes;
+        }
 
-            this.pool = ArrayPool<byte>.Create(CalculateMaxArrayLength(), 50);
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArrayPoolMemoryManager"/> class.
+        /// <param name="maxPoolSizeInBytes">The maximum size of pooled arrays. Arrays over the thershold are gonna be always allocated.</param>
+        /// </summary>
+        public ArrayPoolMemoryManager(int maxPoolSizeInBytes)
+        {
+            Guard.MustBeGreaterThan(maxPoolSizeInBytes, 0, nameof(maxPoolSizeInBytes));
+
+            this.pool = ArrayPool<byte>.Create(maxPoolSizeInBytes, 50);
         }
 
         /// <inheritdoc />
-        internal override Buffer<T> Allocate<T>(int size, bool clear = false)
+        internal override Buffer<T> Allocate<T>(int itemCount)
         {
-            int itemSize = Unsafe.SizeOf<T>();
-            if (this.minSizeBytes > 0 && this.minSizeBytes < size * itemSize)
-            {
-                return new Buffer<T>(new T[size], size);
-            }
+            return this.Allocate<T>(itemCount, false);
+        }
 
-            byte[] byteBuffer = this.pool.Rent(size);
-            var buffer = new Buffer<T>(Unsafe.As<T[]>(byteBuffer), size, this);
+        /// <inheritdoc />
+        internal override Buffer<T> Allocate<T>(int itemCount, bool clear)
+        {
+            int itemSizeBytes = Unsafe.SizeOf<T>();
+            int bufferSizeInBytes = itemCount * itemSizeBytes;
+
+            byte[] byteBuffer = this.pool.Rent(bufferSizeInBytes);
+            var buffer = new Buffer<T>(Unsafe.As<T[]>(byteBuffer), itemCount, this);
             if (clear)
             {
                 buffer.Clear();
@@ -50,19 +62,8 @@ namespace SixLabors.ImageSharp.Memory
         /// <inheritdoc />
         internal override void Release<T>(Buffer<T> buffer)
         {
-            var byteBuffer = Unsafe.As<byte[]>(buffer.Array);
+            byte[] byteBuffer = Unsafe.As<byte[]>(buffer.Array);
             this.pool.Return(byteBuffer);
-        }
-
-        /// <summary>
-        /// Heuristically calculates a reasonable maxArrayLength value for the backing <see cref="ArrayPool{T}"/>.
-        /// </summary>
-        /// <returns>The maxArrayLength value</returns>
-        internal static int CalculateMaxArrayLength()
-        {
-            const int MaximumExpectedImageSize = 16384 * 16384;
-            const int MaximumBytesPerPixel = 4;
-            return MaximumExpectedImageSize * MaximumBytesPerPixel;
         }
     }
 }

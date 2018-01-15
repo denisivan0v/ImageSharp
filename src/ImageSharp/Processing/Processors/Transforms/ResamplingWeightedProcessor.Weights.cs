@@ -162,11 +162,12 @@ namespace SixLabors.ImageSharp.Processing.Processors
             /// <summary>
             /// Initializes a new instance of the <see cref="WeightsBuffer"/> class.
             /// </summary>
+        /// <param name="memoryManager">The <see cref="MemoryManager"/> to use for buffer allocations.</param>
             /// <param name="sourceSize">The size of the source window</param>
             /// <param name="destinationSize">The size of the destination window</param>
-            public WeightsBuffer(int sourceSize, int destinationSize)
+            public WeightsBuffer(MemoryManager memoryManager, int sourceSize, int destinationSize)
             {
-                this.dataBuffer = Buffer2D<float>.CreateClean(sourceSize, destinationSize);
+                this.dataBuffer = memoryManager.Allocate2D<float>(sourceSize, destinationSize, true);
                 this.Weights = new WeightsWindow[destinationSize];
             }
 
