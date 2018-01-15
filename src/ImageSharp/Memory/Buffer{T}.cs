@@ -168,7 +168,7 @@ namespace SixLabors.ImageSharp.Memory
             this.Array = null;
             this.Length = 0;
 
-            // GC.SuppressFinalize(this);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
