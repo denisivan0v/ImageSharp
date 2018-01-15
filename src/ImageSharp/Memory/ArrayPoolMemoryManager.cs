@@ -28,8 +28,8 @@ namespace SixLabors.ImageSharp.Memory
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayPoolMemoryManager"/> class.
-        /// <param name="maxPoolSizeInBytes">The maximum size of pooled arrays. Arrays over the thershold are gonna be always allocated.</param>
         /// </summary>
+        /// <param name="maxPoolSizeInBytes">The maximum size of pooled arrays. Arrays over the thershold are gonna be always allocated.</param>
         public ArrayPoolMemoryManager(int maxPoolSizeInBytes)
         {
             Guard.MustBeGreaterThan(maxPoolSizeInBytes, 0, nameof(maxPoolSizeInBytes));
