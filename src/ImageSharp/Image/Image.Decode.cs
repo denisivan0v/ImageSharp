@@ -79,5 +79,19 @@ namespace SixLabors.ImageSharp
             Image<TPixel> img = decoder.Decode<TPixel>(config, stream);
             return (img, format);
         }
+
+        /// <summary>
+        /// Reads the image base information.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <param name="config">the configuration.</param>
+        /// <returns>
+        /// The <see cref="IImage"/> or null if suitable info detector not found.
+        /// </returns>
+        private static IImage InternalIdentity(Stream stream, Configuration config)
+        {
+            var detector = DiscoverDecoder(stream, config, out IImageFormat _) as IImageInfoDetector;
+            return detector?.Identify(config, stream);
+        }
     }
 }
