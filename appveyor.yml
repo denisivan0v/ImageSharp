@@ -27,4 +27,4 @@ deploy:
       secure: oS9xcmuI1FbfAD8D2GGqI3XNFep6/ZcM7KCA9coG27SgnfnYyg8lx4VCfCfQ1Omb
     artifact: /.*\.nupkg/
     on:
-      branch: master
+      branch: denisivan0v/descrease-maxArraysPerBucket
