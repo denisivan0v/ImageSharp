@@ -37,12 +37,12 @@ namespace SixLabors.ImageSharp.Memory
         /// <summary>
         /// The <see cref="ArrayPool{T}"/> for huge buffers, which is not kept clean.
         /// </summary>
-        private static readonly ArrayPool<T> LargeArrayPool = ArrayPool<T>.Create(MaxLargeArrayLength, 8);
+        private static readonly ArrayPool<T> LargeArrayPool = ArrayPool<T>.Create(MaxLargeArrayLength, 1);
 
         /// <summary>
         /// The <see cref="ArrayPool{T}"/> for small-to-medium buffers which is not kept clean.
         /// </summary>
-        private static readonly ArrayPool<T> NormalArrayPool = ArrayPool<T>.Create(MaxNormalArrayLength, 24);
+        private static readonly ArrayPool<T> NormalArrayPool = ArrayPool<T>.Create(MaxNormalArrayLength, 2);
 
         /// <summary>
         /// Rents the pixel array from the pool.
