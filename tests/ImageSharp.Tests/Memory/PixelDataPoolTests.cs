@@ -74,7 +74,7 @@ namespace SixLabors.ImageSharp.Tests.Memory
         [Theory]
         [InlineData(32)]
         [InlineData(512)]
-        [InlineData(MaxPooledBufferSizeInBytes-1)]
+        // [InlineData(MaxPooledBufferSizeInBytes-1)]
         public void SmallBuffersArePooled(int size)
         {
             Assert.True(this.CheckIsPooled<byte>(5, size));
