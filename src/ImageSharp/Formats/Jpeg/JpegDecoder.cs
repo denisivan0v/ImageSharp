@@ -4,11 +4,10 @@
 using System.IO;
 
 using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Formats.Jpeg.GolangPort;
 
 namespace SixLabors.ImageSharp.Formats.Jpeg
 {
-    using SixLabors.ImageSharp.Formats.Jpeg.GolangPort;
-
     /// <summary>
     /// Image decoder for generating an image out of a jpg stream.
     /// </summary>
