@@ -3,11 +3,12 @@
 
 using System.IO;
 
-using SixLabors.ImageSharp.Formats.Jpeg.PdfJsPort;
 using SixLabors.ImageSharp.PixelFormats;
 
 namespace SixLabors.ImageSharp.Formats.Jpeg
 {
+    using SixLabors.ImageSharp.Formats.Jpeg.GolangPort;
+
     /// <summary>
     /// Image decoder for generating an image out of a jpg stream.
     /// </summary>
@@ -24,7 +25,7 @@ namespace SixLabors.ImageSharp.Formats.Jpeg
         {
             Guard.NotNull(stream, nameof(stream));
 
-            using (var decoder = new PdfJsJpegDecoderCore(configuration, this))
+            using (var decoder = new GolangJpegDecoderCore(configuration, this))
             {
                 return decoder.Decode<TPixel>(stream);
             }
@@ -35,7 +36,7 @@ namespace SixLabors.ImageSharp.Formats.Jpeg
         {
             Guard.NotNull(stream, "stream");
 
-            using (var decoder = new PdfJsJpegDecoderCore(configuration, this))
+            using (var decoder = new GolangJpegDecoderCore(configuration, this))
             {
                 return decoder.Identify(stream);
             }

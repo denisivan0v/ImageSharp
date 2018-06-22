@@ -65,10 +65,10 @@ after_test:
 deploy:
     # MyGet Deployment for builds & releases
   - provider: NuGet
-    server: https://www.myget.org/F/sixlabors/api/v2/package
-    symbol_server: https://www.myget.org/F/sixlabors/symbols/api/v2/package
+    server: https://www.myget.org/F/denisiva0v-imagesharp/api/v2/package
+    symbol_server: https://www.myget.org/F/denisiva0v-imagesharp/symbols/api/v2/package
     api_key:
-      secure: V/lEHP0UeMWIpWd0fiNlY2IgbCnJKQlGdRksECdJbOBdaE20Fl0RNL7WyqHe02o4
+      secure: oS9xcmuI1FbfAD8D2GGqI3XNFep6/ZcM7KCA9coG27SgnfnYyg8lx4VCfCfQ1Omb
     artifact: /.*\.nupkg/
     on:
-      branch: master
+      branch: denisivan0v/switch-jpeg-decoders
